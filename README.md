@@ -65,4 +65,4 @@
 9. 擴展layouts.app 撰寫前端
 10. 部屬FTP上傳至虛擬主機
     這部分本想使用github pages，但github pages只支援靜態html
-    只好申請網域並部屬至虛擬主機上
+    且webhook失敗，故申請網域上傳
