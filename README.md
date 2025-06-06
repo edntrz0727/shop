@@ -39,7 +39,7 @@
     ```
     就可以正常運行 npm
 
-3.設定 .env 環境
+3. 設定 .env 環境
     ```
     DB_DATABASE=dbname
     DB_USERNAME=username
