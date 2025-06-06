@@ -55,8 +55,10 @@
 6. 撰寫關聯及table schema
 7. MySQL 塞測試資料
     此步可使用db:seeder，但選擇用SQL語法進MySQL server新增
+    所以資料僅本地端的MySQL可調閱......
+    未上傳至申請網域的MySQL DB
 8. php artisan make:controller "controller_name" 建立controller
-    共有 ProductController, CartController
+    由ProductController, CartController
     來控制DB行為
     原有多寫update function讓使用者更新自己購買的商品數量
     及CheckoutController控制結帳行為
