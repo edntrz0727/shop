@@ -1,61 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+簡單的購物車網站
+使用
++ Linux (Ubuntu20.04 LTS, Oracle VM)
++ Composer 2.8.9
++ PHP 8.4.7
++ Laravel Framework 12.7.0
++ MySQL 8.0.42-0ubuntu0.20.04.1
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+實作步驟：
+1. 安裝環境後
+   ```
+   sudo apt install php8.4-xml // 需DOM document
+   composer create-project laravel/laravel shop --ignore-platform-reqs
+   //ignore-platform-reqs 可看error安裝對應的requirement pack
+   ```
+   建立laravel專案，cd shop
+2. 設置環境
+   ```
+   npm install
+   npm run build
+   npm run dev
+   ```
+   這個步驟遇到很多次vite版本不相容 & nodejs版本升級後
+   npm install cannot find module 'semver'
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    ↓
+    ```
+    npm cache clear --force // 清除 cache
+    rm -rf node_modules package-lock.json // 刪除原本 npm install 設定的 node modules 和 lock
+    ```
+    安裝 brew，完整移除 nodejs 後重新安裝 nodejs
+    再
+    ```
+    npm install
+    npm run build
+    npm run dev
+    ```
+    就可以正常運行npm
+3.設定.env 環境
+    ```
+    DB_DATABASE=dbname
+    DB_USERNAME=username
+    DB_PASSWORD=password
+    ```
+4. 使用php artisan make:model "model_name" -m 來建立Eqolent及Migration
+   共有 categories, products, carts, cartitems 四個table
+    
+5. composer require laravel/breeze
+   使用breeze套件完成使用者登入、註冊、驗證等流程
+   調用購物車時也可以直接使用auth()來確認使用者id
+   **到user.php中建立與cart的關聯，不然無法讓使用者擁有購物車**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. 撰寫關聯及table schema
+7. MySQL 塞測試資料
+    此步可使用db:seeder，但選擇用SQL語法進MySQL server新增
+8. php artisan make:controller "controller_name" 建立controller
+    共有 ProductController, CartController
+    來控制DB行為
+    原有多寫update function讓使用者更新自己購買的商品數量
+    及CheckoutController控制結帳行為
+    後update部分dd無法收到正確資料，放棄
+    Checkout流程簡化，直接併入CartController內
+9. 擴展layouts.app 撰寫前端
+10. 部屬FTP上傳至虛擬主機
+    這部分本想使用github pages，但github pages只支援靜態html
+    只好申請網域並部屬至虛擬主機上
